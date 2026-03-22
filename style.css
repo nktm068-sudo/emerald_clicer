@@ -1,0 +1,45 @@
+body {
+    display: flex; flex-direction: column; align-items: center; 
+    justify-content: center; height: 100vh; margin: 0;
+    background: #0d1117; color: #50c878; font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+#emerald {
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, #50c878, #065f46);
+    border-radius: 50%; cursor: pointer; transition: 0.4s ease;
+    box-shadow: 0 0 35px rgba(80, 200, 120, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+#emerald.active { animation: pulse 1s infinite alternate; border-color: #fff; }
+#emerald.thinking { animation: rotate 2s linear infinite; filter: hue-rotate(150deg); }
+
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+h1 { margin-top: 25px; letter-spacing: 4px; text-shadow: 0 0 10px rgba(80, 200, 120, 0.5); }
+#status { color: #8b949e; margin-bottom: 10px; }
+
+#input-container {
+    display: flex; align-items: center; margin-top: 20px;
+    background: #0a2e1f; border-radius: 35px;
+    padding: 8px 8px 8px 20px; border: 1px solid #1a4d3a; width: 380px;
+}
+
+#user-input {
+    background: transparent; border: none; color: white;
+    outline: none; flex-grow: 1; font-size: 16px;
+}
+
+#send-btn {
+    background: #50c878; border: none; width: 42px; height: 42px;
+    border-radius: 50%; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; transition: 0.3s;
+}
+
+.arrow-up { color: white; font-size: 24px; font-weight: bold; }
+#send-btn:hover { background: white; transform: scale(1.1); }
+
+#ai-answer { margin-top: 30px; max-width: 85%; text-align: center; color: #c9d1d9; font-size: 1.1em; }
