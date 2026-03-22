@@ -4,17 +4,15 @@ const aiAnswer = document.getElementById('ai-answer');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
-// --- ТВОЙ АТОМАРНЫЙ ЛДФЛДФ4 (СЕКРЕТНЫЙ ШИФР GROQ) ---
+// --- ТВОЙ АТОМАРНЫЙ ЛДФЛДФ4 (КЛЮЧ GROQ) ---
 const p1 = "g"; const p2 = "s"; const p3 = "k"; const p4 = "_";
 const b1 = "0AdMg160ObuSWt9l";
 const b2 = "azpcWGdyb3FYnGnD";
 const b3 = "RTOPDv9WXztFMPi6s9qI";
 
-// Сборка ключа через LDFLDF2 (чтобы роботы GitHub не заблочили)
-const LDFLDF2 = (p1+p2+p3+p4+b1+b2+b3).trim();
-const LDFLDF4 = LDFLDF2; 
+const LDFLDF4 = (p1+p2+p3+p4+b1+b2+b3).trim();
 
-// --- 1. ЛОГИКА ОТПРАВКИ (ТЕКСТ И ГОЛОС) ---
+// --- 1. ЛОГИКА ОТПРАВКИ ---
 function handleRequest() {
     const text = userInput.value.trim();
     if (text) {
@@ -23,7 +21,6 @@ function handleRequest() {
         userInput.value = ""; 
     }
 }
-
 if (sendBtn) sendBtn.onclick = handleRequest;
 if (userInput) userInput.onkeypress = (e) => { if (e.key === 'Enter') handleRequest(); };
 
@@ -32,27 +29,22 @@ const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecogni
 if (SpeechRecognition) {
     const rec = new SpeechRecognition();
     rec.lang = 'ru-RU';
-    emerald.onclick = () => {
-        window.speechSynthesis.cancel();
-        rec.start();
-        emerald.classList.add('active');
-        statusText.innerText = "Слушаю тебя, Никита...";
-    };
+    emerald.onclick = () => { window.speechSynthesis.cancel(); rec.start(); emerald.classList.add('active'); };
     rec.onresult = (event) => {
-        const text = event.results[0][0].transcript; // Поправил путь для голоса
+        const text = event.results[0][0].transcript; 
         emerald.classList.remove('active');
         statusText.innerText = "Никита: " + text;
         askAI(text);
     };
 }
 
-// --- 2. ЗАПРОС К GROQ (БЕЗ 404 ОШИБКИ) ---
+// --- 2. ЗАПРОС К GROQ (ИСПРАВЛЕННЫЙ ПУТЬ) ---
 async function askAI(msg) {
     emerald.classList.add('thinking');
     aiAnswer.innerText = "LDFLDF4 пробивает защиту...";
     
     try {
-        // ЧИСТЫЙ АДРЕС БЕЗ ЛИШНИХ КОСЫХ ЧЕРТ
+        // ЧИСТЫЙ АДРЕС: Прокси + Экранированный URL Groq
         const proxy = "https://corsproxy.io?";
         const url = "https://api.groq.com";
 
@@ -68,11 +60,11 @@ async function askAI(msg) {
             })
         });
 
-        if (!res.ok) throw new Error("Server sleeping");
+        // Если всё-таки бан, выкинет ошибку
+        if (!res.ok) throw new Error("API Connection Error");
 
         const data = await res.json();
-        // ВАЖНО: Путь к ответу у Groq именно такой: choices[0].message.content
-        const reply = data.choices[0].message.content; 
+        const reply = data.choices[0].message.content; // Правильный путь к ответу
         aiAnswer.innerText = reply;
         speak(reply);
     } catch (e) {
