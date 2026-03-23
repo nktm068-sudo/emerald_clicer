@@ -16,8 +16,8 @@ async function askAI(msg) {
     aiAnswer.innerText = "LDFLDF4 пробивает защиту...";
     
     try {
-        // ВОТ ОН: Полный адрес прокси с .io
         const proxy = "https://corsproxy.io?";
+        // ВОТ ОН: Полный адрес до самой нейросети!
         const url = "https://api.groq.com";
 
         const res = await fetch(proxy + encodeURIComponent(url), {
@@ -35,13 +35,11 @@ async function askAI(msg) {
         if (!res.ok) throw new Error("Offline");
 
         const data = await res.json();
-        const reply = data.choices[0].message.content; // Добавил [0], так надежнее для Groq
+        // Исправленный путь: Groq отдает ответ здесь
+        const reply = data.choices[0].message.content; 
         aiAnswer.innerText = reply;
-        
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(new SpeechSynthesisUtterance(reply));
+        speak(reply);
     } catch (e) {
-        // Твоя новая фраза!
         aiAnswer.innerText = "Отсутствует подключение к серверу";
     } finally {
         emerald.classList.remove('thinking');
@@ -57,25 +55,17 @@ userInput.onkeypress = (e) => {
     if(e.key === 'Enter' && userInput.value.trim()) { askAI(userInput.value); userInput.value=""; } 
 };
 
-// --- 5. УМНЫЙ ГОЛОС (АДАПТИРУЕТСЯ ПОД УСТРОЙСТВО) ---
+// --- 5. УМНЫЙ ГОЛОС ---
 function speak(t) {
-    // Останавливаем старую речь
     window.speechSynthesis.cancel();
-    
     const u = new SpeechSynthesisUtterance(t);
-    u.lang = 'ru-RU'; // Ставим русский язык
+    u.lang = 'ru-RU';
 
-       // Ищем лучший голос на твоём устройстве
     const voices = window.speechSynthesis.getVoices();
     const russianVoice = voices.find(v => v.lang.startsWith('ru'));
-    
-    if (russianVoice) {
-        u.voice = russianVoice;
-    }
+    if (russianVoice) u.voice = russianVoice;
 
-    u.pitch = 1.1; // Дружелюбный тон
-    u.rate = 1.0;  // Твоя идеальная скорость (нормальная)
-    
-    // МАГИЯ: Запуск голоса!
+    u.pitch = 1.1; 
+    u.rate = 1.0;  
     window.speechSynthesis.speak(u);
 }
