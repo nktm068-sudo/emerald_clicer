@@ -29,8 +29,8 @@ async function askAI(msg) {
     aiAnswer.innerText = "LDFLDF4 пробивает защиту...";
     
     try {
-        const apiUrl = "https://api.groq.com";
-        const fullUrl = `https://api.allorigins.win{encodeURIComponent(apiUrl)}`;
+        const apiUrl = "https://api.groq.com/openai/v1/chat/completions";
+        const fullUrl = "https://api.allorigins.win/get?url" + encodeURIComponent(apiUrl);
 
         const res = await fetch(fullUrl, {
             method: "POST",
@@ -48,7 +48,7 @@ async function askAI(msg) {
 
         const responseData = await res.json();
         const data = JSON.parse(responseData.contents); 
-        const reply = data.choices[0].message.content; 
+        const reply = data.choices.message.content; 
         
         aiAnswer.innerText = reply;
         speak(reply);
