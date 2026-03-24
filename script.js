@@ -5,23 +5,6 @@ const aiAnswer = document.getElementById('ai-answer');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
-// 📉 СТАРТ С 1000 (Или поставь 5 для теста!)
-let countdown = 3;
-
-function handleRequest() {
-    // 🛑 ПРОВЕРКА НА НОЛЬ
-    if (countdown <= 0) {
-        const farewell = "Спасибо за запросы! Приходите завтра!";
-        aiAnswer.innerText = farewell;
-        speak(farewell);
-        
-        // Блокируем всё мясо!
-        userInput.disabled = true;
-        userInput.placeholder = "Лимит исчерпан. До завтра!";
-        if (sendBtn) sendBtn.disabled = true;
-        return;
-    }
-
     const text = userInput.value.trim();
     if (text) {
         statusText.style.opacity = "1"; 
@@ -46,13 +29,6 @@ async function askAI(msg) {
         // ✅ ПОЛУЧАЕМ МЯСО
         const reply = data.choices[0].message.content; 
         
-        // 📉 МАТЕМАТИКА И ВЫВОД
-        countdown = countdown - 1;
-        document.getElementById('count-num').innerText = countdown;
-        aiAnswer.innerText = reply;
-        
-        // Показываем остаток в консоли
-        console.log("Осталось запросов: " + countdown);
         
         speak(reply);
     } catch (e) {
