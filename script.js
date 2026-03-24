@@ -37,7 +37,7 @@ async function askAI(msg) {
         window.speechSynthesis.cancel();
         speak(reply);
     } catch (e) {
-        aiAnswer.innerText = Сервер перегружен(подождите 10 минут)";
+        aiAnswer.innerText = "Сервер перегружен(подождите 10 минут)";
     } finally {
         emerald.classList.remove('thinking');
     }
