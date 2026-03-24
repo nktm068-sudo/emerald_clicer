@@ -6,7 +6,7 @@ const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
 // 📉 СТАРТ С 1000 (Или поставь 5 для теста!)
-let countdown = 2;
+let countdown = 3;
 
 function handleRequest() {
     // 🛑 ПРОВЕРКА НА НОЛЬ
