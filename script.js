@@ -1,11 +1,10 @@
-// --- 💎 ИЗУМРУДНЫЙ СКРИПТ (БЕСКОНЕЧНЫЙ РЕЖИМ) ---
+// --- 💎 ИЗУМРУДНЫЙ СКРИПТ (БЕСКОНЕЧНЫЙ РЕЖИМ 5.5) ---
 const emerald = document.getElementById('emerald');
 const statusText = document.getElementById('status');
 const aiAnswer = document.getElementById('ai-answer');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
-// ЭТО ТА САМАЯ ФУНКЦИЯ, КОТОРУЮ МЫ ПОЧИНИЛИ!
 function handleRequest() {
     const text = userInput.value.trim();
     if (text) {
@@ -19,7 +18,6 @@ function handleRequest() {
 async function askAI(msg) {
     emerald.classList.add('thinking');
     aiAnswer.innerText = "Связь с Облачным Штабом...";
-    
     try {
         const res = await fetch("https://emeraldcreator-emerald-plus-api.hf.space", {
             method: "POST",
@@ -27,12 +25,9 @@ async function askAI(msg) {
             body: JSON.stringify({ message: msg }) 
         });
         const data = await res.json();
-        
-        // ПОЛУЧАЕМ МЯСО (ОТВЕТ ИИ)
-        const reply = data.choices[0].message.content; 
+        const reply = data.choices.message.content; 
         aiAnswer.innerText = reply;
         speak(reply);
-        
     } catch (e) {
         aiAnswer.innerText = "Ошибка связи (попробуйте через 1 минуту)";
     } finally {
@@ -40,7 +35,6 @@ async function askAI(msg) {
     }
 }
 
-// 🎙️ ГОЛОС ПАВЛА
 function speak(t) {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(t);
@@ -51,7 +45,6 @@ function speak(t) {
     window.speechSynthesis.speak(u);
 }
 
-// ⌨️ ОБРАБОТКА ЭНТЕРА И КЛИКА
 if (sendBtn) sendBtn.onclick = handleRequest;
 if (userInput) userInput.onkeypress = (e) => { if (e.key === 'Enter') handleRequest(); };
 
@@ -62,7 +55,6 @@ if (emerald) {
     };
 }
 
-// 🔓 АКТИВАЦИЯ ЗВУКА
 document.body.addEventListener('click', () => {
     if (window.speechSynthesis.paused) window.speechSynthesis.resume();
 }, { once: true });
