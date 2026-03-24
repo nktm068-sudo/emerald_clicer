@@ -48,6 +48,7 @@ async function askAI(msg) {
         
         // 📉 МАТЕМАТИКА И ВЫВОД
         countdown = countdown - 1;
+        document.getElementById('count-num').innerText = countdown;
         aiAnswer.innerText = reply;
         
         // Показываем остаток в консоли
