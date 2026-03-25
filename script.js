@@ -4,6 +4,12 @@ const statusText = document.getElementById('status');
 const aiAnswer = document.getElementById('ai-answer');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
+// --- 👋 ПРИВЕТСТВИЕ ПРИ ЗАПУСКЕ ---
+window.addEventListener('load', () => {
+    const hello = "Изумрудик на связи!";
+    aiAnswer.innerText = hello;
+    speak(hello);
+});
 
 function handleRequest() {
     const text = userInput.value.trim();
@@ -58,3 +64,10 @@ if (emerald) {
 document.body.addEventListener('click', () => {
     if (window.speechSynthesis.paused) window.speechSynthesis.resume();
 }, { once: true });
+// --- 📱 МАГИЯ PWA (УСТАНОВКА НА ТЕЛЕФОН) ---
+let installPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    installPrompt = e;
+    console.log("💎 Изумрудик готов к установке!");
+});
