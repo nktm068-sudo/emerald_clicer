@@ -1,7 +1,6 @@
-// --- 💎 ИЗУМРУДНЫЙ КЛИКЕР 9.4 (SILENT CLOUD) ---
+// --- 💎 ИЗУМРУДНЫЙ КЛИКЕР 10.1 (БЕЗОПАСНАЯ ВЕРСИЯ) ---
 const emerald = document.getElementById('emerald');
 const statusText = document.getElementById('status');
-const aiAnswer = document.getElementById('ai-answer');
 
 // 🔢 ПЕРЕМЕННЫЕ
 let izumrudiki = 0;
@@ -22,45 +21,44 @@ async function syncWithServer() {
 
 // --- 👋 ЗАПУСК ПРИ ЗАГРУЗКЕ ---
 window.addEventListener('load', () => {
-    syncWithServer(); // Сразу лезем в облако
+    syncWithServer();
 });
 
 function updateUI() {
-    // Твой фирменный стиль "Пользователь + число"
     statusText.innerText = "Пользователь " + izumrudiki + " (Сила: x" + clickPower + ")";
     statusText.style.opacity = "1";
 }
 
-// --- 🖱️ ЛОГИКА ГИПЕР-КЛИКА (БЕЗОПАСНАЯ ВЕРСИЯ 10.1) ---
+// --- 🖱️ ЛОГИКА ГИПЕР-КЛИКА ---
 if (emerald) {
     emerald.onclick = async () => {
-        // 1. Прибавляем изумруды (с учетом x2)
+        // 1. Прибавляем изумруды
         izumrudiki += clickPower;
         updateUI();
 
-        // 2. ✨ ЭФФЕКТ СВЕЧЕНИЯ (Вместо вспышки фона!)
-        // Мы просто добавляем тень самому кристаллу на миг
+        // 2. ✨ МЯГКОЕ СВЕЧЕНИЕ (Безопасно!)
         emerald.style.filter = "drop-shadow(0 0 50px #00ff00)";
         setTimeout(() => {
             emerald.style.filter = "drop-shadow(0 0 20px #00ff00)";
         }, 100);
 
-        // 3. Эффект нажатия (Тряска)
+        // 3. Тряска
         emerald.style.transform = "scale(0.95)";
         setTimeout(() => emerald.style.transform = "scale(1)", 50);
 
-        // 4. МАГАЗИН: Авто-покупка X2 за 200
+        // 4. МАГАЗИН: Авто x2 за 200
         if (izumrudiki >= 200 && clickPower === 1) {
             izumrudiki -= 200;
             clickPower = 2;
-            // aiAnswer.innerText = "Upgrade: x2 Active"; // Если хочешь видеть текст, включи его в CSS!
+            updateUI();
         }
 
         // 5. СОХРАНЕНИЕ В ОБЛАКО
-        saveToCloud(); 
-    };
-}
-
+        try {
+            await fetch("https://nktm068-sudo-serverjs-emeraldcr.hf.space", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ score: izumrudiki, power: clickPower })
             });
         } catch (e) {
             console.log("Save error");
