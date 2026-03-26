@@ -23,7 +23,6 @@ async function syncWithServer() {
 // --- 👋 ЗАПУСК ПРИ ЗАГРУЗКЕ ---
 window.addEventListener('load', () => {
     syncWithServer(); // Сразу лезем в облако
-    aiAnswer.innerText = "Система Активна."; // Кратко и по делу
 });
 
 function updateUI() {
