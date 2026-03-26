@@ -31,34 +31,36 @@ function updateUI() {
     statusText.style.opacity = "1";
 }
 
-// --- 🖱️ ЛОГИКА ГИПЕР-КЛИКА ---
+// --- 🖱️ ЛОГИКА ГИПЕР-КЛИКА (БЕЗОПАСНАЯ ВЕРСИЯ 10.1) ---
 if (emerald) {
     emerald.onclick = async () => {
-        // 1. Прибавляем изумруды
+        // 1. Прибавляем изумруды (с учетом x2)
         izumrudiki += clickPower;
         updateUI();
 
-        // 2. Вспышка экрана (Зеленая)
-        document.body.style.backgroundColor = (clickPower > 1) ? "#94ff94" : "#ccffcc"; 
-        setTimeout(() => document.body.style.backgroundColor = "#000000", 60);
+        // 2. ✨ ЭФФЕКТ СВЕЧЕНИЯ (Вместо вспышки фона!)
+        // Мы просто добавляем тень самому кристаллу на миг
+        emerald.style.filter = "drop-shadow(0 0 50px #00ff00)";
+        setTimeout(() => {
+            emerald.style.filter = "drop-shadow(0 0 20px #00ff00)";
+        }, 100);
 
-        // 3. Эффект нажатия
+        // 3. Эффект нажатия (Тряска)
         emerald.style.transform = "scale(0.95)";
         setTimeout(() => emerald.style.transform = "scale(1)", 50);
 
-        // 4. МАГАЗИН: Авто-покупка X2 за 200 изумрудов
+        // 4. МАГАЗИН: Авто-покупка X2 за 200
         if (izumrudiki >= 200 && clickPower === 1) {
             izumrudiki -= 200;
             clickPower = 2;
-            aiAnswer.innerText = "Upgrade: x2 Active";
+            // aiAnswer.innerText = "Upgrade: x2 Active"; // Если хочешь видеть текст, включи его в CSS!
         }
 
         // 5. СОХРАНЕНИЕ В ОБЛАКО
-        try {
-            await fetch("https://nktm068-sudo-serverjs-emeraldcr.hf.space", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ score: izumrudiki, power: clickPower })
+        saveToCloud(); 
+    };
+}
+
             });
         } catch (e) {
             console.log("Save error");
